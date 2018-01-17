@@ -112,5 +112,15 @@ public class Category implements Serializable {
 
 		return book;
 	}
+	
+	  @PrePersist
+	  protected void onCreate() {
+		  stampDate = new  Timestamp(System.currentTimeMillis());
+	  }
+
+	  @PreUpdate
+	  protected void onUpdate() {
+		  stampDate =  new  Timestamp(System.currentTimeMillis());
+	  } 
 
 }

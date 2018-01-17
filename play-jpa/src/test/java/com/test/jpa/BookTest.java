@@ -12,7 +12,12 @@ public class BookTest extends BaseTest{
 	@Test
 	public void testFindBookById(){
 		beginTransaction();
-		entityManager().find(Book.class, 1);
+		
+		Category category = new Category();
+		category.setParent_Category(0);
+		category.setCategory("Technology");
+		category.setDescription("Technical Category");
+		entityManager().persist(category);
 		commit();
 	}
 	
