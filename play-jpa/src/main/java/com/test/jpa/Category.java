@@ -1,9 +1,21 @@
 package com.test.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.test.jpa.enums.CategoryTitle;
+import com.test.jpa.lifecycle.DefaultRecordUpdateListener;
 
 
 /**
@@ -13,10 +25,11 @@ import java.util.Set;
 @Entity
 @Table(name="Category")
 @NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
+@EntityListeners({DefaultRecordUpdateListener.class })
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private String category;
+	private CategoryTitle category;
 	private String description;
 	private int parent_Category;
 	private Timestamp stampDate;
@@ -39,12 +52,19 @@ public class Category implements Serializable {
 	}
 
 
-	@Column(name="Category", nullable=false, length=300)
+	/*@Column(name="Category", nullable=false, length=300)
 	public String getCategory() {
 		return this.category;
+	}*/
+	
+	@Column(name="Category", nullable=false, length=300)
+	public CategoryTitle getCategory() {
+		return this.category;
 	}
+	
+	
 
-	public void setCategory(String category) {
+	public void setCategory(CategoryTitle category) {
 		this.category = category;
 	}
 
@@ -113,14 +133,4 @@ public class Category implements Serializable {
 		return book;
 	}
 	
-	  @PrePersist
-	  protected void onCreate() {
-		  stampDate = new  Timestamp(System.currentTimeMillis());
-	  }
-
-	  @PreUpdate
-	  protected void onUpdate() {
-		  stampDate =  new  Timestamp(System.currentTimeMillis());
-	  } 
-
 }
